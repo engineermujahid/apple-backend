@@ -1,0 +1,36 @@
+{
+    "users": [
+        {
+            "address": { "address": "1745 T Street Southeast", "city": "Washington", "coordinates": { "lat": 38.867033, "lng": -76.979235 }, "postalCode": "20020", "state": "DC" }
+        }
+    ],
+    "carts": [
+        {
+            "products": [
+                {
+                    "title": "Steel Analog Couple Watches",
+                    "price": 35,
+                    "quantity": 3,
+                    "total": 105,
+                    "discountPercentage": 3.23,
+                    "discountedPrice": 102,
+                    "thumbnail": "https://cdn.dummyjson.com/product-images/66/thumbnail.jpg"
+                },
+                {
+                    "title": "Spring and summershoes",
+                    "price": 20,
+                    "quantity": 1,
+                    "total": 20,
+                    "discountPercentage": 8.71,
+                    "discountedPrice": 18,
+                    "thumbnail": "https://cdn.dummyjson.com/product-images/59/thumbnail.jpg"
+                }
+            ],
+            "total": 315,
+            "discountedTotal": 279,
+            "userId": 75,
+            "totalProducts": 5,
+            "totalQuantity": 8
+        }
+    ]
+}
