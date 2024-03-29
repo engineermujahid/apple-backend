@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 export const register = async (req, res) => {
-    const { name, userName, email, password } = req.body;
+    const { firstName, lastName, userName, email, password, gender, birthDate, imageURL, role } = req.body;
     try {
         const existEmail = await user.findOne({ email });
         if (existEmail) {
@@ -11,7 +11,7 @@ export const register = async (req, res) => {
         }
         // hashed password
         const hashpassword = await bcrypt.hash(password, 10);
-        const newUser = new user({ name, userName, email, password: hashpassword });
+        const newUser = new user({ firstName, lastName, userName, email, password: hashpassword, gender, birthDate, imageURL, role });
         await newUser.save();
         return res.status(201).json({ data: newUser });
     } catch (error) {
@@ -21,9 +21,10 @@ export const register = async (req, res) => {
 
 export const getData = async (req, res) => {
     try {
+        const userData = req.user.id;
         const data = await user.find();
         // const data = await user.find().select("name");
-        res.status(200).json(data);
+        res.status(200).json({ id: userData, data: data });
     } catch (error) {
         res.status(500).json({ message: error });
     }
@@ -79,8 +80,9 @@ export const userLogin = async (req, res) => {
             return res.status(401).json({ message: "Enter currect password" });
         }
         // JWT Token
-        const token = await jwt.sign({ id: userLogin.id, password: userLogin.password }, process.env.SECRET_KEY, { expiresIn: "1h" });
-        res.json({ token: token, message: " LogggedIn succefully" });
+        const token = await jwt.sign({ id: userLogin.id, userName: userLogin.userName }, process.env.SECRET_KEY, { expiresIn: "1d" });
+        const decoded = jwt.decode(token);
+        res.json({ token: token, decoded: decoded.id, message: " LogggedIn succefully" });
     } catch (error) {
         res.status(500).json({ message: error });
     }

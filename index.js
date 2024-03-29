@@ -19,7 +19,7 @@ app.use(cors());
 app.use(bodyparser.urlencoded({ extended: false }));
 app.use(bodyparser.json());
 app.use("/user/", userRoute);
-app.use("/product/", productoute);
+app.use("/products/", productoute);
 app.use("/cart/", cartRoute);
 
 const port = process.env.PORT || 8080;
