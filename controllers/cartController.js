@@ -17,7 +17,7 @@ export const addToCart = async (req, res) => {
 
         if (existingProductIndex !== -1) {
             // Updated line: Ensure that the quantity is properly added to the existing product quantity
-            myCart.products[existingProductIndex].quantity = quantity;
+            myCart.products[existingProductIndex].quantity += quantity;
         } else {
             const findProduct = await product.findById(productId);
             if (!findProduct) {
@@ -43,7 +43,8 @@ export const addToCart = async (req, res) => {
 
 export const fetchCart = async (req, res) => {
     try {
-        const cartId = req.params.id;
+        const userId = req.user.id;
+        const cartId = await cart.findOne({ userId });
         const cartItem = await cart
             .findById(cartId)
             .populate({
@@ -66,8 +67,11 @@ export const fetchCart = async (req, res) => {
         // Update totalPrice field in the cart schema
         cartItem.totalPrice = totalPrice;
         await cartItem.save();
-        res.status(200).json({ success: true, cartItem, totalPrice });
-    } catch (error) {}
+        res.status(200).json(cartItem);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Internal server error" });
+    }
 };
 
 // const cartItem = await cart.findById(cartId).populate("user", "name email userName").populate("product", "name price description");
